@@ -1,4 +1,4 @@
-package com.admxj.netty;
+package com.admxj.real;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;

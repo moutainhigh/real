@@ -1,8 +1,8 @@
-//package com.admxj.netty;
+//package com.admxj.real;
 //
-//import io.netty.channel.group.ChannelGroup;
-//import io.netty.channel.group.DefaultChannelGroup;
-//import io.netty.util.concurrent.GlobalEventExecutor;
+//import io.real.channel.group.ChannelGroup;
+//import io.real.channel.group.DefaultChannelGroup;
+//import io.real.util.concurrent.GlobalEventExecutor;
 //
 ///**
 // * @author admxj

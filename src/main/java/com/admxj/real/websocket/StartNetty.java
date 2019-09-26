@@ -1,10 +1,10 @@
-//package com.admxj.netty;
+//package com.admxj.real;
 //
-//import io.netty.bootstrap.ServerBootstrap;
-//import io.netty.channel.Channel;
-//import io.netty.channel.EventLoopGroup;
-//import io.netty.channel.nio.NioEventLoopGroup;
-//import io.netty.channel.socket.nio.NioServerSocketChannel;
+//import io.real.bootstrap.ServerBootstrap;
+//import io.real.channel.Channel;
+//import io.real.channel.EventLoopGroup;
+//import io.real.channel.nio.NioEventLoopGroup;
+//import io.real.channel.socket.nio.NioServerSocketChannel;
 //
 ///**
 // * @author admxj

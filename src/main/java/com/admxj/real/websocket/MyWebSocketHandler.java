@@ -1,14 +1,14 @@
-//package com.admxj.netty;
+//package com.admxj.real;
 //
-//import io.netty.buffer.ByteBuf;
-//import io.netty.buffer.Unpooled;
-//import io.netty.channel.ChannelFuture;
-//import io.netty.channel.ChannelFutureListener;
-//import io.netty.channel.ChannelHandlerContext;
-//import io.netty.channel.SimpleChannelInboundHandler;
-//import io.netty.handler.codec.http.*;
-//import io.netty.handler.codec.http.websocketx.*;
-//import io.netty.util.CharsetUtil;
+//import io.real.buffer.ByteBuf;
+//import io.real.buffer.Unpooled;
+//import io.real.channel.ChannelFuture;
+//import io.real.channel.ChannelFutureListener;
+//import io.real.channel.ChannelHandlerContext;
+//import io.real.channel.SimpleChannelInboundHandler;
+//import io.real.handler.codec.http.*;
+//import io.real.handler.codec.http.websocketx.*;
+//import io.real.util.CharsetUtil;
 //
 //import java.util.Date;
 //

@@ -1,4 +1,4 @@
-package com.admxj.netty.base;
+package com.admxj.real.base;
 
 /**
  * @author jin.xiang

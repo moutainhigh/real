@@ -1,10 +1,10 @@
-//package com.admxj.netty;
+//package com.admxj.real;
 //
-//import io.netty.channel.ChannelInitializer;
-//import io.netty.channel.socket.SocketChannel;
-//import io.netty.handler.codec.http.HttpObjectAggregator;
-//import io.netty.handler.codec.http.HttpServerCodec;
-//import io.netty.handler.stream.ChunkedWriteHandler;
+//import io.real.channel.ChannelInitializer;
+//import io.real.channel.socket.SocketChannel;
+//import io.real.handler.codec.http.HttpObjectAggregator;
+//import io.real.handler.codec.http.HttpServerCodec;
+//import io.real.handler.stream.ChunkedWriteHandler;
 //
 ///**
 // * @author admxj

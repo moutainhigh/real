@@ -1,5 +1,6 @@
-package com.admxj.netty;
+package com.admxj.real.netty;
 
+import com.admxj.real.MyServerInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
@@ -7,14 +8,13 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 /**
- * @author jin.xiang
- * @version Id: NettyApplication, v 0.1 2019-09-26 15:15 jin.xiang Exp $
+ * @author admxj
+ * @version Id: RealServer, v 0.1 2019-09-27 02:36 admxj Exp $
  */
-public class NettyApplication {
-
-    static int portNumber = 8088;
-
-    public static void main(String[] args) {
+public class RealServer {
+    
+    
+    public static void start(int portNumber) {
 
         try {
             EventLoopGroup bossGroup = new NioEventLoopGroup();

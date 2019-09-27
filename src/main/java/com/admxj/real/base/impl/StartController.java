@@ -2,6 +2,7 @@ package com.admxj.real.base.impl;
 
 import com.admxj.real.base.StartMap;
 import com.admxj.real.base.StartParam;
+import com.admxj.real.mvc.load.LoadController;
 
 /**
  * @author admxj
@@ -10,6 +11,6 @@ import com.admxj.real.base.StartParam;
 public class StartController implements StartMap {
     @Override
     public void load(StartParam startParam) throws Exception {
-
+        LoadController.loadController();
     }
 }

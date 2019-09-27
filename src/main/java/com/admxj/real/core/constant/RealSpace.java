@@ -1,4 +1,4 @@
-package com.admxj.real.constant;
+package com.admxj.real.core.constant;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,8 +20,13 @@ public class RealSpace {
         return constants;
     }
 
-    public void setAttr(String key,Object value) {
+    public void setAttr(String key, Object value) {
         map.put(key, value);
     }
+
+    public Object getAttr(String key) {
+        return map.get(key);
+    }
+
 
 }

@@ -16,11 +16,12 @@ public class RealCoreServlet implements RealServlet {
 
         ResolveRequest resolveRequest = ResolveRequest.getResolveRequest();
 
-        // TODO: 2019-09-28 admxj  
+        // TODO: 2019-09-28 admxj
         return null;
     }
 
     public Object resolve(HttpRequest request, HttpResponse response) throws Exception {
 
+        return null;
     }
 }

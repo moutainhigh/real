@@ -11,10 +11,11 @@ import java.util.Map;
  */
 public class StartLoad {
 
-    public static void load(Map<Integer, StartMap> startList) throws Exception {
+    public static void load(Class<?> clazz, Map<Integer, StartMap> startList) throws Exception {
 
         StartParam startParam = new StartParam();
-        for (int i =0; i < startList.size(); i++){
+        startParam.setClazz(clazz);
+        for (int i = 0, len = startList.size(); i < len; i++) {
             startList.get(i).load(startParam);
         }
     }

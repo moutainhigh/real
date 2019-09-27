@@ -11,6 +11,7 @@ import com.admxj.real.mvc.model.RealMappingModel;
 import com.admxj.real.mvc.proxy.MvcCglibProxy;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,9 +25,10 @@ public class LoadController {
 
 
     public static void loadController() throws Exception {
+
+        Map<String, RealMappingModel> controlObjects = new HashMap<>();
         List<RealBeanClassModel> controllerList = LoadHelper.getControllerList();
         Map<String, RealBeanModel> beanObjectMap = LoadHelper.getBeanObjectMap();
-
         for (RealBeanClassModel model : controllerList) {
             Class<?> cls = model.getClassName();
             Object object = iocControl(cls, beanObjectMap);
@@ -36,15 +38,16 @@ public class LoadController {
                 RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
                 if (requestMapping != null) {
                     RealMappingModel mappingModel = new RealMappingModel();
-                    mappingModel.setCls();
-                    mappingModel.setMethod();
-                    mappingModel.setObject();
-                    mappingModel.setRequestMethod();
+                    mappingModel.setCls(cls);
+                    mappingModel.setMethod(method.getName());
+                    mappingModel.setObject(object);
+                    mappingModel.setRequestMethod(requestMapping.method());
+                    controlObjects.put(requestMapping.value(), mappingModel);
                 }
             }
 
         }
-        constants.setAttr(RealConstant.CONTROLLER_OBJECTS, );
+        constants.setAttr(RealConstant.CONTROLLER_OBJECTS, controlObjects);
 
     }
 

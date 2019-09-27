@@ -37,6 +37,7 @@ public class LoadClass {
         try {
             Set<String> strings = ScanClass.loadClassList(packageName);
             for (String string : strings) {
+                System.out.println(string);
                 Class<?> clazz = Class.forName(string);
                 Controller controller = clazz.getAnnotation(Controller.class);
                 RealBean realBean = clazz.getAnnotation(RealBean.class);

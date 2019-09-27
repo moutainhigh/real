@@ -32,7 +32,7 @@ public class LoadHelper {
         List<RealBeanClassModel> realBeansList = new ArrayList<>();
 
         Object reamBeans = constants.getAttr(RealConstant.CONTROLLERS);
-        if (realBeansList != null) {
+        if (reamBeans != null) {
             realBeansList = (List<RealBeanClassModel>) reamBeans;
         }
         return realBeansList;

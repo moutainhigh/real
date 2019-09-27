@@ -9,6 +9,6 @@ import com.admxj.real.start.RearStart;
 public class NettyApplication {
 
     public static void main(String[] args) {
-        RearStart.start();
+        RearStart.start(NettyApplication.class, args);
     }
 }

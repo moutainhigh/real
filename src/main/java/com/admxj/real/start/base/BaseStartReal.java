@@ -17,10 +17,10 @@ public class BaseStartReal {
         BaseStartReal.startList = startList;
     }
 
-    public static void start() {
+    public static void start(Class<?> clazz) {
 
         try {
-            StartLoad.load(startList);
+            StartLoad.load(clazz, startList);
 
             RealServer.start(8088);
 

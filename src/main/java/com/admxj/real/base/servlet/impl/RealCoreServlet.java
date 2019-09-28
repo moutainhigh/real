@@ -1,9 +1,11 @@
 package com.admxj.real.base.servlet.impl;
 
 import com.admxj.real.base.servlet.RealServlet;
+import com.admxj.real.constant.DataType;
 import com.admxj.real.mvc.resolve.ResolveRequest;
 import com.admxj.real.server.HttpRequest;
 import com.admxj.real.server.HttpResponse;
+import com.alibaba.fastjson.JSON;
 
 /**
  * @author admxj
@@ -11,17 +13,44 @@ import com.admxj.real.server.HttpResponse;
  */
 
 public class RealCoreServlet implements RealServlet {
+
     @Override
     public Object doRequest(HttpRequest request, HttpResponse response) throws Exception {
 
-        ResolveRequest resolveRequest = ResolveRequest.getResolveRequest();
+        try {
 
-        // TODO: 2019-09-28 admxj
-        return null;
+            ResolveRequest resolveRequest = ResolveRequest.getResolveRequest();
+            Object result = resolveRequest.resolve(request, response);
+
+            if (isNotObject(result)) {
+                return resolveRequest;
+            } else {
+                return JSON.toJSONString(request);
+            }
+        } catch (Exception e) {
+            throw new Exception("解析请求出错", e);
+        }
     }
 
-    public Object resolve(HttpRequest request, HttpResponse response) throws Exception {
-
-        return null;
+    private boolean isNotObject(Object result) {
+        String fieldTypeName = result.getClass().getSimpleName().toUpperCase();
+        switch (fieldTypeName) {
+            case DataType.INT:
+            case DataType.INTEGER:
+            case DataType.BYTE:
+            case DataType.STRING:
+            case DataType.CHAR:
+            case DataType.CHARACTER:
+            case DataType.DOUBLE:
+            case DataType.FLOAT:
+            case DataType.LONG:
+            case DataType.SHORT:
+            case DataType.BOOLEAN:
+                return true;
+            default:
+                return false;
+        }
     }
+
+
 }

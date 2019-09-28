@@ -9,6 +9,7 @@ import com.admxj.real.core.model.RealBeanModel;
 import com.admxj.real.mvc.annotation.RequestMapping;
 import com.admxj.real.mvc.model.RealMappingModel;
 import com.admxj.real.mvc.proxy.MvcCglibProxy;
+import com.admxj.real.server.util.RequestUtil;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -23,11 +24,14 @@ public class LoadController {
 
     private static RealSpace constants = RealSpace.getEasySpace();
 
-
+    /**
+     * 加载所有的 Controller
+     * @throws Exception
+     */
     public static void loadController() throws Exception {
-
-        Map<String, RealMappingModel> controlObjects = new HashMap<>();
         List<RealBeanClassModel> controllerList = LoadHelper.getControllerList();
+        //默认controller Object对象的map大小为已知controller的两倍
+        Map<String, RealMappingModel> controlObjects = new HashMap<>(controllerList.size() * 2);
         Map<String, RealBeanModel> beanObjectMap = LoadHelper.getBeanObjectMap();
         for (RealBeanClassModel model : controllerList) {
             Class<?> cls = model.getClassName();
@@ -42,7 +46,7 @@ public class LoadController {
                     mappingModel.setMethod(method.getName());
                     mappingModel.setObject(object);
                     mappingModel.setRequestMethod(requestMapping.method());
-                    controlObjects.put(requestMapping.value(), mappingModel);
+                    controlObjects.put(RequestUtil.getRequestPath(requestMapping.value()), mappingModel);
                 }
             }
 

@@ -1,5 +1,6 @@
 package com.admxj.real;
 
+import com.admxj.real.base.servlet.RealServlet;
 import com.admxj.real.core.constant.RealSpace;
 import com.admxj.real.server.HttpRequest;
 import com.admxj.real.server.HttpResponse;
@@ -70,9 +71,9 @@ public class MyServerHandler extends ChannelInboundHandlerAdapter {
             RealSpace constants = RealSpace.getEasySpace();
             String className = constants.getAttr("core").toString();
             Class<?> cls = Class.forName(className);
-            Object object = cls.getDeclaredConstructor().newInstance();
+            RealServlet object = (RealServlet) cls.getDeclaredConstructor().newInstance();
             Method doRequest = cls.getDeclaredMethod("doRequest", HttpRequest.class, HttpResponse.class);
-            Object result = doRequest.invoke(object, HttpRequest.class, HttpResponse.class);
+            Object result = doRequest.invoke(object, request, response);
 
             response.send(String.valueOf(result));
         } catch (InstantiationException e) {

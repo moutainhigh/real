@@ -1,6 +1,6 @@
 package com.admxj.real.base.impl;
 
-import com.admxj.real.base.StartMap;
+import com.admxj.real.core.StartMap;
 import com.admxj.real.core.StartParam;
 import com.admxj.real.core.annotation.BeanScan;
 import com.admxj.real.core.constant.RealConstant;
@@ -34,7 +34,7 @@ public class StartConfig implements StartMap {
         Class<?> clazz = startParam.getClazz();
         BeanScan beanScan = clazz.getAnnotation(BeanScan.class);
         if (null != beanScan) {
-            String[] value = beanScan.value();
+            String[] value = beanScan.basePackage();
             for (String packageName : value) {
                 scanPackage.add(packageName);
             }

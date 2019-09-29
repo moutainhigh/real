@@ -1,6 +1,7 @@
 package com.admxj.real.base;
 
 import com.admxj.real.base.impl.*;
+import com.admxj.real.core.StartMap;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +10,7 @@ import java.util.Map;
  * @author jin.xiang
  * @version Id: StartLoadList, v 0.1 2019-09-26 18:28 jin.xiang Exp $
  */
-public class StartLoadList {
+public class StartLoadListImpl {
 
     public static Map<Integer, StartMap> initStartList(){
 

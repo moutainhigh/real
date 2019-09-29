@@ -1,4 +1,4 @@
-package com.admxj.real.load;
+package com.admxj.real.ioc.load;
 
 /**
  * @author jin.xiang

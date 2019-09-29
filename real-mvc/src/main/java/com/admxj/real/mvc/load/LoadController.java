@@ -65,6 +65,13 @@ public class LoadController {
 
     }
 
+    /**
+     *
+     * @param cls
+     * @param realBeanObjs
+     * @return
+     * @throws Exception
+     */
     private static Object iocControl(Class<?> cls, Map<String, RealBeanModel> realBeanObjs) throws Exception {
         MvcCglibProxy mvcCglibProxy = new MvcCglibProxy();
         Object proxy = mvcCglibProxy.getProxy(cls);

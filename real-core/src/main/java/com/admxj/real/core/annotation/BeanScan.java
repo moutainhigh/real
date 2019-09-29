@@ -6,5 +6,6 @@ package com.admxj.real.core.annotation;
  */
 public @interface BeanScan {
 
-    String[] value();
+
+    String[] basePackage() default {};
 }

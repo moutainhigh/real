@@ -1,10 +1,10 @@
 package com.admxj.real.base.servlet.impl;
 
-import com.admxj.real.base.servlet.RealServlet;
 import com.admxj.real.core.constant.DataType;
+import com.admxj.real.mvc.resolve.ResolveRequest;
 import com.admxj.real.server.model.http.HttpRequest;
 import com.admxj.real.server.model.http.HttpResponse;
-import com.admxj.real.server.resolve.ResolveRequest;
+import com.admxj.real.server.servlet.RealServlet;
 import com.alibaba.fastjson.JSON;
 
 /**

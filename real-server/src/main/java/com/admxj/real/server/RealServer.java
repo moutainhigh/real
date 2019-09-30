@@ -12,8 +12,8 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
  * @version Id: RealServer, v 0.1 2019-09-27 02:36 admxj Exp $
  */
 public class RealServer {
-    
-    
+
+
     public static void start(int portNumber) {
 
         try {
@@ -35,3 +35,4 @@ public class RealServer {
         }
     }
 }
+

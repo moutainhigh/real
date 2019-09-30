@@ -1,5 +1,6 @@
 package com.admxj.real.mvc.load;
 
+import com.admxj.real.mvc.annotation.Controller;
 import com.admxj.real.mvc.annotation.RequestMapping;
 import com.admxj.real.core.constant.RealConstant;
 import com.admxj.real.core.load.LoadHelper;
@@ -10,11 +11,15 @@ import com.admxj.real.core.model.RealBeanModel;
 import com.admxj.real.mvc.model.RealMappingModel;
 import com.admxj.real.mvc.proxy.MvcCglibProxy;
 import com.admxj.real.server.util.RequestUtil;
+import com.sun.deploy.util.ArrayUtil;
+import com.sun.tools.javac.util.ArrayUtils;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author jin.xiang
@@ -26,14 +31,19 @@ public class LoadController {
 
     /**
      * 加载所有的 Controller
+     *
      * @throws Exception
      */
     public static void loadController() throws Exception {
-        List<RealBeanClassModel> controllerList = LoadHelper.getControllerList();
+        List<RealBeanClassModel> beanList = LoadHelper.getBeanList();
         //默认controller Object对象的map大小为已知controller的两倍
-        Map<String, RealMappingModel> controlObjects = new HashMap<>(controllerList.size() * 2);
+        Map<String, RealMappingModel> controlObjects = new HashMap<>(beanList.size() * 2);
         Map<String, RealBeanModel> beanObjectMap = LoadHelper.getBeanObjectMap();
-        for (RealBeanClassModel model : controllerList) {
+        for (RealBeanClassModel model : beanList) {
+
+            if (null == model.getClassName().getAnnotation(Controller.class)) {
+                continue;
+            }
             Class<?> cls = model.getClassName();
             Object object = iocControl(cls, beanObjectMap);
 
@@ -55,6 +65,13 @@ public class LoadController {
 
     }
 
+    /**
+     *
+     * @param cls
+     * @param realBeanObjs
+     * @return
+     * @throws Exception
+     */
     private static Object iocControl(Class<?> cls, Map<String, RealBeanModel> realBeanObjs) throws Exception {
         MvcCglibProxy mvcCglibProxy = new MvcCglibProxy();
         Object proxy = mvcCglibProxy.getProxy(cls);

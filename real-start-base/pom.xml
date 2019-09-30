@@ -24,5 +24,9 @@
             <groupId>com.admxj.real</groupId>
             <artifactId>real-server</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.admxj.real</groupId>
+            <artifactId>real-mvc</artifactId>
+        </dependency>
     </dependencies>
 </project>

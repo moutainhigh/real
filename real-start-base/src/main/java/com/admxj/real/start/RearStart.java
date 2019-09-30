@@ -1,6 +1,6 @@
 package com.admxj.real.start;
 
-import com.admxj.real.base.StartLoadList;
+import com.admxj.real.base.StartLoadListImpl;
 import com.admxj.real.start.base.BaseStartReal;
 
 /**
@@ -11,7 +11,7 @@ public class RearStart {
 
     public static void start(Class<?> clazz, String[] args) {
 
-        BaseStartReal.setStartList(StartLoadList.initStartList());
+        BaseStartReal.setStartList(StartLoadListImpl.initStartList());
 
         BaseStartReal.start(clazz);
     }

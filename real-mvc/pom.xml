@@ -18,6 +18,10 @@
             <groupId>com.admxj.real</groupId>
             <artifactId>real-server</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

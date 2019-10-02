@@ -6,6 +6,7 @@ import com.admxj.real.server.model.http.HttpResponse;
 import com.admxj.real.server.servlet.RealServlet;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
+import io.netty.handler.codec.http.HttpResponseStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,19 +31,17 @@ public class HttpExecutor {
         /* 组装httpRequest对象 */
         HttpRequest request = new HttpRequest(httpRequest, ctx);
 
-        /* 组装httpResponse对象 */
-        HttpResponse response = new HttpResponse(ctx);
-
         try {
             RealSpace constants = RealSpace.getEasySpace();
             String className = constants.getAttr("core").toString();
             Class<?> cls = Class.forName(className);
             RealServlet object = (RealServlet) cls.getDeclaredConstructor().newInstance();
-            Method doRequest = cls.getDeclaredMethod("doRequest", HttpRequest.class, HttpResponse.class);
+            Method doRequest = cls.getDeclaredMethod("doRequest", HttpRequest.class);
 
-            doRequest.invoke(object, request, response);
-
-            response.send();
+            HttpResponse response = (HttpResponse) doRequest.invoke(object, request);
+            if (request.getBody() != null || (response.getStatus() != null && response.getStatus() == HttpResponseStatus.FOUND.code())) {
+                response.send();
+            }
 
         } catch (InstantiationException e) {
             e.printStackTrace();

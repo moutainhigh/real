@@ -38,6 +38,11 @@ public class HttpResponse {
      */
     private Map<String, String>   header;
 
+    /**
+     * 响应状态码
+     */
+    private Integer               status;
+
     public HttpResponse(ChannelHandlerContext ctx) {
         this.ctx = ctx;
         header = new HashMap<>();

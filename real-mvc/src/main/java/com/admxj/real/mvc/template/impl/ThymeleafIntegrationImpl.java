@@ -1,4 +1,4 @@
-package com.admxj.real.base.template.impl;
+package com.admxj.real.mvc.template.impl;
 
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;

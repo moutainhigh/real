@@ -13,9 +13,8 @@ public interface RealServlet {
      * 请求接受方法
      *
      * @param request
-     * @param response
      * @return obj
      */
-    void doRequest(HttpRequest request, HttpResponse response) throws Exception;
+    HttpResponse doRequest(HttpRequest request) throws Exception;
 
 }

@@ -1,11 +1,12 @@
 package com.admxj.real.core.load;
 
-import com.admxj.real.core.annotation.RealBean;
+import java.lang.annotation.Annotation;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import com.admxj.real.core.constant.RealConstant;
 import com.admxj.real.core.model.RealBeanClassModel;
-
-import java.lang.annotation.Annotation;
-import java.util.*;
 
 /**
  * @author jin.xiang
@@ -17,7 +18,6 @@ public class LoadBeans {
 
     public static void loadNativeBeans() {
     }
-
 
     public static void loadBean(Class<?> cls) {
         List<RealBeanClassModel> beanList = LoadHelper.getBeanList();

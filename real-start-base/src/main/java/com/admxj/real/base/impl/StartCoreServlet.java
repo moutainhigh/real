@@ -2,7 +2,7 @@ package com.admxj.real.base.impl;
 
 import com.admxj.real.core.StartMap;
 import com.admxj.real.core.StartParam;
-import com.admxj.real.base.servlet.impl.RealCoreServlet;
+import com.admxj.real.mvc.servlet.impl.RealCoreServlet;
 import com.admxj.real.core.load.RealSpace;
 
 /**

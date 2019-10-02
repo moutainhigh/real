@@ -1,4 +1,4 @@
-package com.admxj.real.base.template;
+package com.admxj.real.mvc.template;
 
 import java.util.Map;
 

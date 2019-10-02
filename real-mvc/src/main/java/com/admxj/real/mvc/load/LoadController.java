@@ -1,25 +1,22 @@
 package com.admxj.real.mvc.load;
 
-import com.admxj.real.mvc.annotation.Controller;
-import com.admxj.real.mvc.annotation.RequestMapping;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.admxj.real.core.constant.RealConstant;
 import com.admxj.real.core.load.LoadHelper;
 import com.admxj.real.core.load.RealSpace;
 import com.admxj.real.core.load.WriteFields;
 import com.admxj.real.core.model.RealBeanClassModel;
 import com.admxj.real.core.model.RealBeanModel;
+import com.admxj.real.mvc.annotation.Controller;
+import com.admxj.real.mvc.annotation.RequestMapping;
+import com.admxj.real.mvc.annotation.RestController;
 import com.admxj.real.mvc.model.RealMappingModel;
 import com.admxj.real.mvc.proxy.MvcCglibProxy;
 import com.admxj.real.server.util.RequestUtil;
-import com.sun.deploy.util.ArrayUtil;
-import com.sun.tools.javac.util.ArrayUtils;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * @author jin.xiang
@@ -36,12 +33,15 @@ public class LoadController {
      */
     public static void loadController() throws Exception {
         List<RealBeanClassModel> beanList = LoadHelper.getBeanList();
-        //默认controller Object对象的map大小为已知controller的两倍
+        // 默认controller Object对象的map大小为已知controller的两倍
         Map<String, RealMappingModel> controlObjects = new HashMap<>(beanList.size() * 2);
         Map<String, RealBeanModel> beanObjectMap = LoadHelper.getBeanObjectMap();
         for (RealBeanClassModel model : beanList) {
 
-            if (null == model.getClassName().getAnnotation(Controller.class)) {
+            RestController restController = model.getClassName().getAnnotation(RestController.class);
+            Controller controller = model.getClassName().getAnnotation(Controller.class);
+
+            if (null == controller && restController == null) {
                 continue;
             }
             Class<?> cls = model.getClassName();
@@ -56,6 +56,7 @@ public class LoadController {
                     mappingModel.setMethod(method.getName());
                     mappingModel.setObject(object);
                     mappingModel.setRequestMethod(requestMapping.method());
+                    mappingModel.setAnnotation(null == restController ? controller : restController);
                     controlObjects.put(RequestUtil.getRequestPath(requestMapping.value()), mappingModel);
                 }
             }
@@ -66,7 +67,6 @@ public class LoadController {
     }
 
     /**
-     *
      * @param cls
      * @param realBeanObjs
      * @return

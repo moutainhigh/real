@@ -1,17 +1,17 @@
 package com.admxj.real.mvc;
 
-import com.admxj.real.mvc.annotation.Controller;
+import java.util.Map;
+
 import com.admxj.real.mvc.annotation.RequestMapping;
+import com.admxj.real.mvc.annotation.RestController;
 import com.admxj.real.server.model.http.HttpRequest;
 import com.admxj.real.server.model.http.HttpResponse;
-
-import java.util.Map;
 
 /**
  * @author jin.xiang
  * @version Id: RemoteConfigController, v 0.1 2019-09-27 09:38 jin.xiang Exp $
  */
-@Controller
+@RestController
 public class RemoteConfigController {
 
 

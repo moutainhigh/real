@@ -1,6 +1,7 @@
 package com.admxj.real.base.servlet.impl;
 
 import com.admxj.real.core.constant.DataType;
+import com.admxj.real.mvc.model.ModelAndView;
 import com.admxj.real.mvc.resolve.ResolveRequest;
 import com.admxj.real.server.model.http.HttpRequest;
 import com.admxj.real.server.model.http.HttpResponse;
@@ -23,7 +24,11 @@ public class RealCoreServlet implements RealServlet {
             Object result = resolveRequest.resolve(request, response);
 
             if (isNotObject(result)) {
-                return resolveRequest;
+                return result;
+            }
+            if (result instanceof ModelAndView) {
+                // TODO: 2019-10-02 jin.xiang 返回模板引擎
+                return null;
             } else {
                 return JSON.toJSONString(request);
             }
@@ -51,6 +56,5 @@ public class RealCoreServlet implements RealServlet {
                 return false;
         }
     }
-
 
 }

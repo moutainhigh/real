@@ -24,5 +24,6 @@ public class MyServerInitializer extends ChannelInitializer<SocketChannel> {
         ph.addLast("aggregator", new HttpObjectAggregator(10485760));
         // 服务端业务逻辑
         ph.addLast("handler", new MyServerHandler());
+//        ph.addLast(new HttpServerHandleAdapter());
     }
 }

@@ -39,9 +39,11 @@ public class HttpExecutor {
             Class<?> cls = Class.forName(className);
             RealServlet object = (RealServlet) cls.getDeclaredConstructor().newInstance();
             Method doRequest = cls.getDeclaredMethod("doRequest", HttpRequest.class, HttpResponse.class);
-            Object result = doRequest.invoke(object, request, response);
 
-            response.send(String.valueOf(result));
+            doRequest.invoke(object, request, response);
+
+            response.send();
+
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {

@@ -16,6 +16,6 @@ public interface RealServlet {
      * @param response
      * @return obj
      */
-    Object doRequest(HttpRequest request, HttpResponse response) throws Exception;
+    void doRequest(HttpRequest request, HttpResponse response) throws Exception;
 
 }

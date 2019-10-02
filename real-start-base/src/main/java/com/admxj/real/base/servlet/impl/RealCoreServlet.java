@@ -7,6 +7,7 @@ import com.admxj.real.server.model.http.HttpRequest;
 import com.admxj.real.server.model.http.HttpResponse;
 import com.admxj.real.server.servlet.RealServlet;
 import com.alibaba.fastjson.JSON;
+import io.netty.handler.codec.http.HttpHeaderNames;
 
 /**
  * @author admxj
@@ -16,7 +17,7 @@ import com.alibaba.fastjson.JSON;
 public class RealCoreServlet implements RealServlet {
 
     @Override
-    public Object doRequest(HttpRequest request, HttpResponse response) throws Exception {
+    public void doRequest(HttpRequest request, HttpResponse response) throws Exception {
 
         try {
 
@@ -24,13 +25,12 @@ public class RealCoreServlet implements RealServlet {
             Object result = resolveRequest.resolve(request, response);
 
             if (isNotObject(result)) {
-                return result;
-            }
-            if (result instanceof ModelAndView) {
+                response.setBody(String.valueOf(result));
+            } else if (result instanceof ModelAndView) {
                 // TODO: 2019-10-02 jin.xiang 返回模板引擎
-                return null;
             } else {
-                return JSON.toJSONString(request);
+                response.addHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "text/json; charset=UTF-8");
+                response.setBody(JSON.toJSONString(result));
             }
         } catch (Exception e) {
             throw new Exception("解析请求出错", e);

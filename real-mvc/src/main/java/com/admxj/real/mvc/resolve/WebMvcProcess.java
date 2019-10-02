@@ -20,7 +20,7 @@ public class WebMvcProcess {
 
     public static WebMvcProcess getWebMvcProcess() {
         if (null == webMvcProcess) {
-            new WebMvcProcess();
+            webMvcProcess = new WebMvcProcess();
         }
         return webMvcProcess;
     }

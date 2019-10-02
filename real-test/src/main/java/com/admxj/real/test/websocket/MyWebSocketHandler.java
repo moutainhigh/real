@@ -37,7 +37,7 @@
 //            handshaker.close(ctx.channel(), ((CloseWebSocketFrame) frame).retain());
 //        }
 //        if (frame instanceof PingWebSocketFrame) {
-//            ctx.channel().write(new PongWebSocketFrame(frame.content().retain()));
+//            ctx.channel().write(new PongWebSocketFrame(frame.body().retain()));
 //            return;
 //        }
 //        if (!(frame instanceof TextWebSocketFrame)) {
@@ -74,7 +74,7 @@
 //    private void sendHttpResponse(ChannelHandlerContext ctx, FullHttpRequest req, DefaultFullHttpResponse res) {
 //        if (res.getStatus().code() == 200) {
 //            ByteBuf buf = Unpooled.copiedBuffer(res.getStatus().toString(), CharsetUtil.UTF_8);
-//            res.content().writeBytes(buf);
+//            res.body().writeBytes(buf);
 //            buf.release();
 //        }
 //        ChannelFuture f = ctx.channel().read().write(res);

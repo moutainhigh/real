@@ -1,5 +1,6 @@
 package com.admxj.real.base.servlet.impl;
 
+import com.admxj.real.base.template.impl.ThymeleafIntegrationImpl;
 import com.admxj.real.core.constant.DataType;
 import com.admxj.real.mvc.model.ModelAndView;
 import com.admxj.real.mvc.resolve.ResolveRequest;
@@ -27,7 +28,10 @@ public class RealCoreServlet implements RealServlet {
             if (isNotObject(result)) {
                 response.setBody(String.valueOf(result));
             } else if (result instanceof ModelAndView) {
-                // TODO: 2019-10-02 jin.xiang 返回模板引擎
+                ModelAndView view = (ModelAndView) result;
+                String renderContent = ThymeleafIntegrationImpl.render(view.getView(), view.getModel());
+                response.addHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "text/html; charset=UTF-8");
+                response.setBody(renderContent);
             } else {
                 response.addHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "text/json; charset=UTF-8");
                 response.setBody(JSON.toJSONString(result));

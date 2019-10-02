@@ -11,7 +11,7 @@ import lombok.Data;
 public class ModelAndView {
 
     /** View instance or view name String */
-    private Object     view;
+    private String     view;
 
     /** Model Map */
     private ModelMap   model;

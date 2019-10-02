@@ -28,5 +28,9 @@
             <groupId>com.admxj.real</groupId>
             <artifactId>real-mvc</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf</artifactId>
+        </dependency>
     </dependencies>
 </project>

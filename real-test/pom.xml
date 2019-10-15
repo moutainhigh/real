@@ -8,7 +8,7 @@
     <parent>
         <groupId>com.admxj.real</groupId>
         <artifactId>real-parent</artifactId>
-        <version>1.1-SNAPSHOT</version>
+        <version>0.0.1.RELEASE</version>
     </parent>
 
 

@@ -14,11 +14,19 @@ import java.io.RandomAccessFile;
  */
 public class HttpServerHandleAdapter extends SimpleChannelInboundHandler<FullHttpRequest> {
 
+    public static final String  CONTENT_TYPE   = "Content-Type";
+
+    public static final String  CONTENT_LENGTH = "Content-Length";
+
+    public static final String  CONNECTION     = "Connection";
+
+    public static final String  KEEP_ALIVE     = "keep-alive";
+
     // 资源所在路径
     private static final String location;
 
     // 404文件页面地址
-    private static final File NOT_FOUND;
+    private static final File   NOT_FOUND;
 
     static {
         // 构建资源所在路径，此处参数可优化为使用配置文件传入
@@ -27,7 +35,6 @@ public class HttpServerHandleAdapter extends SimpleChannelInboundHandler<FullHtt
         String path = location + "/404.html";
         NOT_FOUND = new File(path);
     }
-
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request) throws Exception {
@@ -60,19 +67,19 @@ public class HttpServerHandleAdapter extends SimpleChannelInboundHandler<FullHtt
         }
 
         // 设置文件格式内容
-        if (path.endsWith(".html")){
-            response.headers().set(HttpHeaders.Names.CONTENT_TYPE, "text/html; charset=UTF-8");
-        }else if(path.endsWith(".js")){
-            response.headers().set(HttpHeaders.Names.CONTENT_TYPE, "application/x-javascript");
-        }else if(path.endsWith(".css")){
-            response.headers().set(HttpHeaders.Names.CONTENT_TYPE, "text/css; charset=UTF-8");
+        if (path.endsWith(".html")) {
+            response.headers().set(CONTENT_TYPE, "text/html; charset=UTF-8");
+        } else if (path.endsWith(".js")) {
+            response.headers().set(CONTENT_TYPE, "application/x-javascript");
+        } else if (path.endsWith(".css")) {
+            response.headers().set(CONTENT_TYPE, "text/css; charset=UTF-8");
         }
 
         boolean keepAlive = HttpHeaders.isKeepAlive(request);
 
         if (keepAlive) {
-            response.headers().set(HttpHeaders.Names.CONTENT_LENGTH, file.length());
-            response.headers().set(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
+            response.headers().set(CONTENT_LENGTH, file.length());
+            response.headers().set(CONNECTION, KEEP_ALIVE);
         }
         ctx.write(response);
 

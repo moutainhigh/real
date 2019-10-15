@@ -9,7 +9,7 @@
     <parent>
         <groupId>com.admxj.real</groupId>
         <artifactId>real-parent</artifactId>
-        <version>0.0.2.RELEASE</version>
+        <version>0.0.3.RELEASE</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 

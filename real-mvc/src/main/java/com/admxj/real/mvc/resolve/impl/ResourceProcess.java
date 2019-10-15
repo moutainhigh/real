@@ -33,7 +33,7 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
  */
 public class ResourceProcess {
 
-    private static Logger logger = LoggerFactory.getLogger(ResourceProcess.class);
+    private static Logger          logger                 = LoggerFactory.getLogger(ResourceProcess.class);
 
     public static final String     HTTP_DATE_FORMAT       = "EEE, dd MMM yyyy HH:mm:ss zzz";
     public static final String     HTTP_DATE_GMT_TIMEZONE = "GMT";
@@ -52,10 +52,10 @@ public class ResourceProcess {
     }
 
     /** 资源所在路径 */
-    private static String location = null;
+    private static String     location = null;
 
     /** 404文件页面地址 */
-    private static final File   NOT_FOUND;
+    private static final File NOT_FOUND;
 
     static {
         // 构建资源所在路径，此处参数可优化为使用配置文件传入
@@ -107,7 +107,7 @@ public class ResourceProcess {
             }
 
             setContentLength(httpResponse, html);
-            setContentTypeHeader(httpResponse, html);
+            setContentTypeHeader(httpResponse, response, html);
             setDateAndCacheHeaders(httpResponse, html);
 
             if (HttpUtil.isKeepAlive(httpResponse)) {
@@ -156,19 +156,25 @@ public class ResourceProcess {
 
     /**
      * 设置文件格式内容
-     * @param response
+     * @param httpResponse
      * @param file
      */
-    private static void setContentTypeHeader(io.netty.handler.codec.http.HttpResponse response, File file) {
+    private static void setContentTypeHeader(io.netty.handler.codec.http.HttpResponse httpResponse, HttpResponse response, File file) {
         MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
-        response.headers().set(HttpHeaderNames.CONTENT_TYPE, mimeTypesMap.getContentType(file.getPath()));
+        httpResponse.headers().set(HttpHeaderNames.CONTENT_TYPE, mimeTypesMap.getContentType(file.getPath()));
         String path = file.getPath();
-        if (path.endsWith(".html")) {
-            response.headers().set(HttpHeaderNames.CONTENT_TYPE.toString(), "text/html; charset=UTF-8");
+        String contentType = response.getHeader().get(HttpHeaderNames.CONTENT_TYPE.toString());
+        // 判断response是否有contentType
+        if (contentType != null && !"".equals(contentType)) {
+            httpResponse.headers().set(HttpHeaderNames.CONTENT_TYPE.toString(), contentType);
+        } else if (path.endsWith(".html")) {
+            httpResponse.headers().set(HttpHeaderNames.CONTENT_TYPE.toString(), "text/html; charset=UTF-8");
         } else if (path.endsWith(".js")) {
-            response.headers().set(HttpHeaderNames.CONTENT_TYPE.toString(), "application/x-javascript");
+            httpResponse.headers().set(HttpHeaderNames.CONTENT_TYPE.toString(), "application/x-javascript");
         } else if (path.endsWith(".css")) {
-            response.headers().set(HttpHeaderNames.CONTENT_TYPE.toString(), "text/css; charset=UTF-8");
+            httpResponse.headers().set(HttpHeaderNames.CONTENT_TYPE.toString(), "text/css; charset=UTF-8");
+        } else {
+            httpResponse.headers().set(HttpHeaderNames.CONTENT_TYPE.toString(), "text/plain; charset=UTF-8");
         }
     }
 

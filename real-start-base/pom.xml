@@ -10,7 +10,7 @@
     <parent>
         <groupId>com.admxj.real</groupId>
         <artifactId>real-parent</artifactId>
-        <version>0.0.2.RELEASE</version>
+        <version>0.0.3.RELEASE</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -29,4 +29,13 @@
             <artifactId>real-mvc</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

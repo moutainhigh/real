@@ -26,6 +26,7 @@
         <lombok.version>1.18.8</lombok.version>
         <thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
         <fastjson.version>1.2.61</fastjson.version>
+        <logback.version>1.2.3</logback.version>
     </properties>
 
     <modules>
@@ -103,6 +104,11 @@
                 <artifactId>thymeleaf</artifactId>
                 <version>${thymeleaf.version}</version>
             </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>#{logback.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -145,17 +151,17 @@
         </pluginManagement>
     </build>
 
-        <distributionManagement>
-            <snapshotRepository>
-                <id>real-snapshot</id>
-                <name>real-snapshot</name>
-                <url>http://nexus.admxj.com/repository/maven-snapshots/</url>
-                <uniqueVersion>false</uniqueVersion>
-            </snapshotRepository>
-            <repository>
-                <id>real-nexus-releases</id>
-                <name>real-nexus-releases</name>
-                <url>http://nexus.admxj.com/repository/maven-releases/</url>
-            </repository>
-        </distributionManagement>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>real-snapshot</id>
+            <name>real-snapshot</name>
+            <url>http://nexus.admxj.com/repository/maven-snapshots/</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+        <repository>
+            <id>real-nexus-releases</id>
+            <name>real-nexus-releases</name>
+            <url>http://nexus.admxj.com/repository/maven-releases/</url>
+        </repository>
+    </distributionManagement>
 </project>

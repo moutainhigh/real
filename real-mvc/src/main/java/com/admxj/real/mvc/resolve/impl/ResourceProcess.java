@@ -20,6 +20,8 @@ import io.netty.channel.DefaultFileRegion;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.ssl.SslHandler;
 import io.netty.handler.stream.ChunkedNioFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.activation.MimetypesFileTypeMap;
 
@@ -30,6 +32,8 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
  * @version Id: ResourceProcess, v 0.1 2019-10-03 01:12 jin.xiang Exp $
  */
 public class ResourceProcess {
+
+    private static Logger logger = LoggerFactory.getLogger(ResourceProcess.class);
 
     public static final String     HTTP_DATE_FORMAT       = "EEE, dd MMM yyyy HH:mm:ss zzz";
     public static final String     HTTP_DATE_GMT_TIMEZONE = "GMT";
@@ -48,14 +52,18 @@ public class ResourceProcess {
     }
 
     /** 资源所在路径 */
-    private static final String location;
+    private static String location = null;
 
     /** 404文件页面地址 */
     private static final File   NOT_FOUND;
 
     static {
         // 构建资源所在路径，此处参数可优化为使用配置文件传入
-        location = HttpServerHandleAdapter.class.getResource("/static").getFile();
+        try {
+            location = HttpServerHandleAdapter.class.getResource("/static").getFile();
+        } catch (Exception e) {
+            logger.warn("/static not found!");
+        }
         // 构建404页面
         String path = location + "/404.html";
         NOT_FOUND = new File(path);

@@ -39,7 +39,7 @@ public class HttpExecutor {
             Method doRequest = cls.getDeclaredMethod("doRequest", HttpRequest.class);
 
             HttpResponse response = (HttpResponse) doRequest.invoke(object, request);
-            if (request.getBody() != null || (response.getStatus() != null && response.getStatus() == HttpResponseStatus.FOUND.code())) {
+            if (response.getBody() != null || (response.getStatus() != null && response.getStatus() == HttpResponseStatus.FOUND.code())) {
                 response.send();
             }
 

@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import com.admxj.real.mvc.context.ProcessContext;
 import com.admxj.real.mvc.model.RealMappingModel;
@@ -19,11 +21,19 @@ import io.netty.handler.codec.http.*;
 import io.netty.handler.ssl.SslHandler;
 import io.netty.handler.stream.ChunkedNioFile;
 
+import javax.activation.MimetypesFileTypeMap;
+
+import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
+
 /**
  * @author jin.xiang
  * @version Id: ResourceProcess, v 0.1 2019-10-03 01:12 jin.xiang Exp $
  */
 public class ResourceProcess {
+
+    public static final String     HTTP_DATE_FORMAT       = "EEE, dd MMM yyyy HH:mm:ss zzz";
+    public static final String     HTTP_DATE_GMT_TIMEZONE = "GMT";
+    public static final int        HTTP_CACHE_SECONDS     = 60;
 
     private static ResourceProcess resourceProcess;
 
@@ -37,10 +47,10 @@ public class ResourceProcess {
         return resourceProcess;
     }
 
-    // 资源所在路径
+    /** 资源所在路径 */
     private static final String location;
 
-    // 404文件页面地址
+    /** 404文件页面地址 */
     private static final File   NOT_FOUND;
 
     static {
@@ -71,33 +81,31 @@ public class ResourceProcess {
             html = NOT_FOUND;
         }
 
+        DefaultHttpResponse httpResponse = new DefaultHttpResponse(HTTP_1_1, HttpResponseStatus.valueOf(response.getStatus() != null ? response.getStatus() : 200));
+
         try (RandomAccessFile file = new RandomAccessFile(html, "r")) {
             ChannelHandlerContext ctx = response.getCtx();
 
             // 文件没有发现设置状态为404
-            if (html == NOT_FOUND) {
+            if (!html.exists()) {
                 response.setStatus(HttpResponseStatus.NOT_FOUND.code());
             }
 
-            // 设置文件格式内容
-            if (path.endsWith(".html")) {
-                response.addHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "text/html; charset=UTF-8");
-            } else if (path.endsWith(".js")) {
-                response.addHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "application/x-javascript");
-            } else if (path.endsWith(".css")) {
-                response.addHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "text/css; charset=UTF-8");
-            }
-
-            // TODO: 2019-10-03 jin.xiang 默认支持 keepAlive
             boolean keepAlive = true;
-            //            keepAlive = HttpHeaders.isKeepAlive(request);
 
             if (keepAlive) {
                 response.addHeader(HttpHeaderNames.CONTENT_LENGTH.toString(), String.valueOf(file.length()));
                 response.addHeader(HttpHeaderNames.CONNECTION.toString(), HttpHeaderValues.KEEP_ALIVE.toString());
             }
 
-            ctx.write(response);
+            setContentLength(httpResponse, html);
+            setContentTypeHeader(httpResponse, html);
+            setDateAndCacheHeaders(httpResponse, html);
+
+            if (HttpUtil.isKeepAlive(httpResponse)) {
+                httpResponse.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
+            }
+            ctx.write(httpResponse);
 
             if (ctx.pipeline().get(SslHandler.class) == null) {
                 ctx.write(new DefaultFileRegion(file.getChannel(), 0, file.length()));
@@ -112,10 +120,48 @@ public class ResourceProcess {
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+    }
+
+    private void setContentLength(DefaultHttpResponse httpResponse, File file) {
+        httpResponse.headers().set(HttpHeaderNames.CONTENT_LENGTH, file.length());
+    }
+
+    private static void setDateAndCacheHeaders(io.netty.handler.codec.http.HttpResponse response, File fileToCache) {
+        SimpleDateFormat dateFormatter = new SimpleDateFormat(HTTP_DATE_FORMAT, Locale.US);
+        dateFormatter.setTimeZone(TimeZone.getTimeZone(HTTP_DATE_GMT_TIMEZONE));
+
+        // Date header
+        Calendar time = new GregorianCalendar();
+        response.headers().set(HttpHeaderNames.DATE, dateFormatter.format(time.getTime()));
+
+        // Add cache headers
+        time.add(Calendar.SECOND, HTTP_CACHE_SECONDS);
+        response.headers().set(HttpHeaderNames.EXPIRES, dateFormatter.format(time.getTime()));
+        response.headers().set(HttpHeaderNames.CACHE_CONTROL, "private, max-age=" + HTTP_CACHE_SECONDS);
+        response.headers().set(HttpHeaderNames.LAST_MODIFIED, dateFormatter.format(new Date(fileToCache.lastModified())));
+    }
+
+    /**
+     * 设置文件格式内容
+     * @param response
+     * @param file
+     */
+    private static void setContentTypeHeader(io.netty.handler.codec.http.HttpResponse response, File file) {
+        MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
+        response.headers().set(HttpHeaderNames.CONTENT_TYPE, mimeTypesMap.getContentType(file.getPath()));
+        String path = file.getPath();
+        if (path.endsWith(".html")) {
+            response.headers().set(HttpHeaderNames.CONTENT_TYPE.toString(), "text/html; charset=UTF-8");
+        } else if (path.endsWith(".js")) {
+            response.headers().set(HttpHeaderNames.CONTENT_TYPE.toString(), "application/x-javascript");
+        } else if (path.endsWith(".css")) {
+            response.headers().set(HttpHeaderNames.CONTENT_TYPE.toString(), "text/css; charset=UTF-8");
+        }
     }
 
 }

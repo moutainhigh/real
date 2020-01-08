@@ -6,7 +6,7 @@
 
     <groupId>com.admxj.real</groupId>
     <artifactId>real-parent</artifactId>
-    <version>0.0.3.RELEASE</version>
+    <version>0.0.4.RELEASE</version>
     <packaging>pom</packaging>
     <description>基于netty实现的web应用服务框架</description>
 
@@ -111,6 +111,33 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <repositories>
+                <repository>
+                    <id>github</id>
+                    <name>GitHub OWNER Apache Maven Packages</name>
+                    <url>https://maven.pkg.github.com/admxj/real/</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>github</id>
+                    <url>https://maven.pkg.github.com/admxj/real/</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+    </profiles>
 
     <build>
         <pluginManagement>
@@ -152,16 +179,21 @@
     </build>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>real-snapshot</id>
-            <name>real-snapshot</name>
-            <url>http://nexus.admxj.com/repository/maven-snapshots/</url>
-            <uniqueVersion>false</uniqueVersion>
-        </snapshotRepository>
+<!--        <snapshotRepository>-->
+<!--            <id>real-snapshot</id>-->
+<!--            <name>real-snapshot</name>-->
+<!--            <url>http://nexus.admxj.com/repository/maven-snapshots/</url>-->
+<!--            <uniqueVersion>false</uniqueVersion>-->
+<!--        </snapshotRepository>-->
+<!--        <repository>-->
+<!--            <id>real-nexus-releases</id>-->
+<!--            <name>real-nexus-releases</name>-->
+<!--            <url>http://nexus.admxj.com/repository/maven-releases/</url>-->
+<!--        </repository>-->
         <repository>
-            <id>real-nexus-releases</id>
-            <name>real-nexus-releases</name>
-            <url>http://nexus.admxj.com/repository/maven-releases/</url>
+            <id>github</id>
+            <name>GitHub OWNER Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/admxj/real</url>
         </repository>
     </distributionManagement>
 </project>

@@ -1,7 +1,7 @@
 os: linux
 language: java
 jdk:
-  - oraclejdk8
+  - openjdk8
 
 branches:
   only:
